@@ -7,10 +7,14 @@ Make rss full text.
 ```bash
 # install dependencies
 yarn
-# generate key for signing url
-yarn gen_key
 
-KEYS=<your_key> yarn start
+# start in public mode -- everyone can use
+yarn start
+
+# start in protected mode -- only users with key can use
+## generate key for signing url
+yarn gen_key
+KEYS=<your_key>[, <your_key_b>] yarn start
 ```
 
 ## Usage
@@ -18,14 +22,14 @@ KEYS=<your_key> yarn start
 An example request looks like:
 
 ```
-http://localhost:3000/feed?format=rss&sign=<your_sign>&url=<feed_url>
+http://localhost:3000/feed?format=rss&url=<feed_url>[&sign=<your_sign>]
 ```
 
 Params are:
 
 - `format`: Output in which format. Can be `rss` or `json`
 - `url`: url to original feed
-- `sign`: hexadecimal HMAC signature of the feed url
+- `sign`: required for protected mode. hexadecimal HMAC signature of the feed url
 
 You can get sign using
 

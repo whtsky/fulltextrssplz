@@ -3,7 +3,7 @@ import bodyParser from 'body-parser'
 import Parser from 'rss-parser'
 import { Feed } from 'feed'
 import type { FeedOptions, Item } from 'feed/lib/typings'
-import Sentry from '@sentry/node'
+import * as Sentry from '@sentry/node'
 import { RewriteFrames } from '@sentry/integrations'
 
 import { parsePageUsingMercury } from './parser'
@@ -47,14 +47,16 @@ app.get('/feed', async (req, res) => {
     return
   }
 
-  const sign = req.query.sign
-  if (!sign || typeof sign !== 'string') {
-    res.end('no sign')
-    return
-  }
-  if (!verify(feedUrl, sign, keys)) {
-    res.end('bad sign')
-    return
+  if (keys) {
+    const sign = req.query.sign
+    if (!sign || typeof sign !== 'string') {
+      res.end('no sign')
+      return
+    }
+    if (!verify(feedUrl, sign, keys)) {
+      res.end('bad sign')
+      return
+    }
   }
   let format = Format.RSS
 
