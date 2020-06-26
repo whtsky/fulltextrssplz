@@ -10,7 +10,6 @@ import { parsePageUsingMercury } from './parser'
 import { verify } from './sign'
 import { DummyCache } from './cache'
 
-const port = process.env.PORT || 3000
 const maxItemPerFeed = 3
 const sentryDsn = process.env.SENTRY_DSN
 const keys = (process.env.KEYS || '').split(',')
@@ -115,4 +114,4 @@ if (sentryDsn) {
   app.use(Sentry.Handlers.errorHandler())
 }
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+export default app

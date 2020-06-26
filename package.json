@@ -27,7 +27,7 @@
     "rss-parser": "^3.8.0"
   },
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "ts-node src/server.ts",
     "build": "tsc",
     "test": "jest --coverage",
     "gen_key": "ts-node src/scripts/genKey.ts",
