@@ -2,6 +2,12 @@
 
 Make rss full text.
 
+[![Deploy to Vercel](https://vercel.com//button)](https://vercel.com/import/project?template=https://github.com/whtsky/fulltextrssplz)
+
+## Example
+
+Full text version of [UN News](https://news.un.org/feed/subscribe/en/news/all/rss.xml): https://fulltextrssplz.whtsky.me/feed?url=https://news.un.org/feed/subscribe/en/news/all/rss.xml&format=RSS
+
 ## Installation
 
 ```bash
