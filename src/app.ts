@@ -13,7 +13,7 @@ import { DummyCache } from './cache'
 
 const maxItemPerFeed = 3
 const sentryDsn = process.env.SENTRY_DSN
-const keys = (process.env.KEYS || '').split(',')
+const keys = (process.env.KEYS || '').split(',').filter(Boolean)
 const publicPath = path.join(__dirname, '../public')
 
 const app = express()
@@ -51,7 +51,7 @@ app.get('/feed', async (req, res) => {
     return
   }
 
-  if (keys) {
+  if (keys.length) {
     const sign = req.query.sign
     if (!sign || typeof sign !== 'string') {
       res.end('no sign')
@@ -94,7 +94,6 @@ app.get('/feed', async (req, res) => {
     if (!item.link) {
       continue
     }
-    console.log(item.link)
     const newItem: Item = {
       ...item,
       title: item.title!,
