@@ -6,6 +6,7 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^2.3.0",
     "@rollup/plugin-commonjs": "^13.0.0",
     "@rollup/plugin-node-resolve": "^8.1.0",
     "@rollup/plugin-typescript": "^5.0.1",
@@ -18,6 +19,7 @@
     "jest": "^26.1.0",
     "prettier": "^2.0.5",
     "rollup": "^2.18.1",
+    "rollup-plugin-postcss": "^3.1.2",
     "rollup-plugin-terser": "^6.1.0",
     "ts-jest": "^26.1.1",
     "ts-node": "^8.10.2",
@@ -27,6 +29,7 @@
     "@postlight/mercury-parser": "^2.2.0",
     "@sentry/integrations": "^5.18.1",
     "@sentry/node": "^5.18.1",
+    "bootstrap": "^4.5.0",
     "crypto-js": "^4.0.0",
     "express": "^4.17.1",
     "feed": "^4.2.0",
