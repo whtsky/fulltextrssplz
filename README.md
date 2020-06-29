@@ -14,6 +14,9 @@ Full text version of [UN News](https://news.un.org/feed/subscribe/en/news/all/rs
 # install dependencies
 yarn
 
+# build frontend codes
+yarn build
+
 # start in public mode -- everyone can use
 yarn start
 
