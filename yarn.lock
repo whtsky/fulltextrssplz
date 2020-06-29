@@ -1166,6 +1166,7 @@ browser-process-hrtime@^1.0.0:
 
 "browser-request@github:postlight/browser-request#feat-add-headers-to-response":
   version "0.3.2"
+  uid "38faa5b85741aabfca61aa37d1ef044d68969ddf"
   resolved "https://codeload.github.com/postlight/browser-request/tar.gz/38faa5b85741aabfca61aa37d1ef044d68969ddf"
   dependencies:
     http-headers "^3.0.1"
@@ -1607,6 +1608,7 @@ diff@^4.0.1:
 
 "difflib@github:postlight/difflib.js":
   version "0.2.6"
+  uid "32e8e38c7fcd935241b9baab71bb432fd9b166ed"
   resolved "https://codeload.github.com/postlight/difflib.js/tar.gz/32e8e38c7fcd935241b9baab71bb432fd9b166ed"
   dependencies:
     heap ">= 0.2.0"
