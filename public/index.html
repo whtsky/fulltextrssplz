@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <link rel="stylesheet" href="styles.css" />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        background-color: #eaeaea;
+      }
+      #main {
+        margin-top: 120px;
+        border: 1px solid #9c9c9c;
+        border-radius: 1.1rem;
+        background-color: #fff;
+        padding: 2rem 5rem;
+      }
+      #output {
+        display: block;
+        word-break: break-all;
+      }
+    </style>
+
+    <title>fulltextrssplz</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row justify-content-center align-items-center">
+        <div id="main" class="col-md-6">
+          <div class="col-md-12">
+            <h3 class="text-center">fulltextrssplz</h3>
+            <div class="form-group">
+              <label for="url">RSS URL:</label>
+              <input
+                id="url"
+                name="url"
+                placeholder="http://website.com/feed"
+                class="form-control"
+                type="url"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="format">Output Format:</label>
+              <select class="form-control" name="format" id="format" required>
+                <option>RSS</option>
+                <option>JSON</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="key">Access Key:</label>
+              <input id="key" name="key" placeholder="It's optional" class="form-control" type="password" />
+            </div>
+            <hr />
+            <div class="form-group">
+              <label for="output">Full Text RSS URL:</label>
+              <a href="" id="output"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="output"></div>
+    </div>
+    <script src="frontend.js"></script>
+  </body>
+</html>

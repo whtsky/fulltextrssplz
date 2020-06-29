@@ -5,6 +5,7 @@ import { Feed } from 'feed'
 import type { FeedOptions, Item } from 'feed/lib/typings'
 import * as Sentry from '@sentry/node'
 import { RewriteFrames } from '@sentry/integrations'
+import path from 'path'
 
 import { parsePageUsingMercury } from './parser'
 import { verify } from './sign'
@@ -12,7 +13,8 @@ import { DummyCache } from './cache'
 
 const maxItemPerFeed = 3
 const sentryDsn = process.env.SENTRY_DSN
-const keys = (process.env.KEYS || '').split(',')
+const keys = (process.env.KEYS || '').split(',').filter(Boolean)
+const publicPath = path.join(__dirname, '../public')
 
 const app = express()
 const cache = new DummyCache()
@@ -35,6 +37,8 @@ if (sentryDsn) {
   app.use(Sentry.Handlers.requestHandler())
 }
 
+app.use(express.static(publicPath))
+
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.get('/feed', async (req, res) => {
@@ -47,7 +51,7 @@ app.get('/feed', async (req, res) => {
     return
   }
 
-  if (keys) {
+  if (keys.length) {
     const sign = req.query.sign
     if (!sign || typeof sign !== 'string') {
       res.end('no sign')
@@ -61,11 +65,16 @@ app.get('/feed', async (req, res) => {
   let format = Format.RSS
 
   if (req.query.format) {
-    if (req.query.format == 'json') {
-      format = Format.JSON
-    } else {
-      res.end('unsupported format: ' + req.query.format)
-      return
+    switch (String(req.query.format).toLowerCase()) {
+      case 'json':
+        format = Format.JSON
+        break
+      case 'rss':
+        format = Format.RSS
+        break
+      default:
+        res.end('unsupported format: ' + req.query.format)
+        return
     }
   }
 
@@ -85,7 +94,6 @@ app.get('/feed', async (req, res) => {
     if (!item.link) {
       continue
     }
-    console.log(item.link)
     const newItem: Item = {
       ...item,
       title: item.title!,
