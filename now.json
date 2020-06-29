@@ -1,7 +1,4 @@
 {
   "version": 2,
-  "routes": [
-    { "src": "/api/.*", "dest": "/api/now.ts" },
-    { "src": "/.*", "dest": "/api/now.ts" }
-  ]
+  "routes": [{ "src": "/feed", "dest": "/api/now.ts" }]
 }

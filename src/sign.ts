@@ -1,16 +1,15 @@
 import crypto from 'crypto'
 
+import hmac from 'crypto-js/hmac-sha256'
+
 const keyLength = 16
-const algorithm = 'sha256'
 
 export function newKey(): string {
   return crypto.randomBytes(keyLength).toString('hex')
 }
 
 export function sign(url: string, key: string) {
-  const hmac = crypto.createHmac(algorithm, key)
-  hmac.update(url)
-  return hmac.digest('hex')
+  return hmac(url, key).toString()
 }
 
 export function verify(url: string, hmac: string, keys: string[]): boolean {
