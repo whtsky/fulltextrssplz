@@ -24,3 +24,18 @@ function updateUrl() {
   urlOutput.innerText = targetUrl
   urlOutput.href = targetUrl
 }
+
+// get feedUrl from query string
+const urlParams = new URLSearchParams(window.location.search)
+const feedUrl = urlParams.get('feed')
+if (feedUrl) {
+  urlInput.value = feedUrl
+}
+
+// update bookmarklet href
+const bookmarkletButton = document.getElementById('bookmarklet') as HTMLAnchorElement
+let baseUrl = window.location.href.split('?')[0]
+if (!baseUrl.endsWith('/')) {
+  baseUrl += '/'
+}
+bookmarkletButton.href = `javascript:location.href='${baseUrl}?feed='+encodeURIComponent(window.location.href);`

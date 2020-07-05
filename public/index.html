@@ -13,8 +13,11 @@
         height: 100vh;
         background-color: #eaeaea;
       }
-      #main {
-        margin-top: 120px;
+      .main-wrapper {
+        min-height: calc(100vh - 100px);
+      }
+      .main {
+        margin-top: 60px;
         border: 1px solid #9c9c9c;
         border-radius: 1.1rem;
         background-color: #fff;
@@ -24,15 +27,18 @@
         display: block;
         word-break: break-all;
       }
+      .footer a {
+        color: #495057;
+      }
     </style>
 
     <title>fulltextrssplz</title>
   </head>
   <body>
     <div class="container">
-      <div class="row justify-content-center align-items-center">
-        <div id="main" class="col-md-6">
-          <div class="col-md-12">
+      <div class="main-wrapper">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-md-6 main">
             <h3 class="text-center">fulltextrssplz</h3>
             <div class="form-group">
               <label for="url">RSS URL:</label>
@@ -63,8 +69,24 @@
             </div>
           </div>
         </div>
+        <div class="row justify-content-center align-items-center">
+          <div class="col-md-6 main">
+            <h3 class="text-center">bookmarklet</h3>
+            <a href="" class="btn btn-success active btn-lg btn-block" id="bookmarklet">
+              fulltextrssplz
+            </a>
+            <div class="alert alert-light">
+              - Drag and drop this link to your bookmarks -
+            </div>
+          </div>
+        </div>
       </div>
-      <div id="output"></div>
+      <div class="row justify-content-center align-items-center footer">
+        <div class="col-md-6 text-center">
+          <a href="https://github.com/whtsky/fulltextrssplz">fulltextrssplz</a> is created by
+          <a href="https://github.com/whtsky/">whtsky</a>
+        </div>
+      </div>
     </div>
     <script src="frontend.js"></script>
   </body>
