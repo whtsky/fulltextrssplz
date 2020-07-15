@@ -7,7 +7,7 @@
   "private": true,
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^2.3.0",
-    "@rollup/plugin-commonjs": "^13.0.2",
+    "@rollup/plugin-commonjs": "^14.0.0",
     "@rollup/plugin-node-resolve": "^8.4.0",
     "@rollup/plugin-typescript": "^5.0.2",
     "@types/crypto-js": "^3.1.47",
