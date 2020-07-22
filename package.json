@@ -34,7 +34,7 @@
     "express": "^4.17.1",
     "feed": "^4.2.1",
     "redis": "^3.0.2",
-    "rss-parser": "^3.8.0"
+    "rss-parser": "^3.9.0"
   },
   "scripts": {
     "start": "tsc && node src/server.js",
