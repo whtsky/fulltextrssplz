@@ -5,16 +5,11 @@ import { Feed } from 'feed'
 import type { FeedOptions, Item } from 'feed/lib/typings'
 import * as Sentry from '@sentry/node'
 import { RewriteFrames } from '@sentry/integrations'
-import path from 'path'
 
+import * as constants from './constants'
 import { parsePageUsingMercury } from './parser'
 import { verify } from './sign'
 import { DummyCache } from './cache'
-
-const maxItemPerFeed = 3
-const sentryDsn = process.env.SENTRY_DSN
-const keys = (process.env.KEYS || '').split(',').filter(Boolean)
-const publicPath = path.join(__dirname, '../public')
 
 const app = express()
 const cache = new DummyCache()
@@ -24,9 +19,9 @@ enum Format {
   JSON,
 }
 
-if (sentryDsn) {
+if (constants.sentryDsn) {
   Sentry.init({
-    dsn: sentryDsn,
+    dsn: constants.sentryDsn,
     integrations: [
       new RewriteFrames({
         root: __dirname || process.cwd(),
@@ -37,7 +32,7 @@ if (sentryDsn) {
   app.use(Sentry.Handlers.requestHandler())
 }
 
-app.use(express.static(publicPath))
+app.use(express.static(constants.publicPath))
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -51,13 +46,13 @@ app.get('/feed', async (req, res) => {
     return
   }
 
-  if (keys.length) {
+  if (constants.keys.length) {
     const sign = req.query.sign
     if (!sign || typeof sign !== 'string') {
       res.end('no sign')
       return
     }
-    if (!verify(feedUrl, sign, keys)) {
+    if (!verify(feedUrl, sign, constants.keys)) {
       res.end('bad sign')
       return
     }
@@ -78,6 +73,14 @@ app.get('/feed', async (req, res) => {
     }
   }
 
+  let maxItemsPerFeed = constants.maxItemsPerFeed
+  if (req.query.max_items) {
+    const maxItems = Number(req.query.max_items)
+    if (maxItems < maxItemsPerFeed) {
+      maxItemsPerFeed = maxItems
+    }
+  }
+
   const feed = await parser.parseURL(feedUrl)
   const feedOptions: FeedOptions = {
     ...feed,
@@ -90,7 +93,7 @@ app.get('/feed', async (req, res) => {
   }
   const outputFeed = new Feed(feedOptions)
 
-  for (const item of (feed.items || []).slice(0, maxItemPerFeed)) {
+  for (const item of (feed.items || []).slice(0, maxItemsPerFeed)) {
     if (!item.link) {
       continue
     }
@@ -120,7 +123,7 @@ app.get('/feed', async (req, res) => {
   }
 })
 
-if (sentryDsn) {
+if (constants.sentryDsn) {
   app.use(Sentry.Handlers.errorHandler())
 }
 
