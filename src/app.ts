@@ -36,9 +36,61 @@ app.use(express.static(constants.publicPath))
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
-app.get('/feed', async (req, res) => {
+async function getFullTextFeed(feedUrl: string, maxItemsPerFeed: number) {
   const parser = new Parser()
+  try {
+    const feed = await parser.parseURL(feedUrl)
+    const feedOptions: FeedOptions = {
+      ...feed,
+      title: feed.title!,
+      description: feed.description,
+      link: feedUrl,
+      id: feedUrl,
+      image: feed.image?.url,
+      copyright: '',
+    }
+    const outputFeed = new Feed(feedOptions)
 
+    for (const item of (feed.items || []).slice(0, maxItemsPerFeed)) {
+      if (!item.link) {
+        continue
+      }
+      const newItem: Item = {
+        ...item,
+        title: item.title!,
+        link: item.link!,
+        date: new Date(item.pubDate!),
+      }
+      let content: string | undefined = await cache.get(item.link)
+      if (!content) {
+        content = (await parsePageUsingMercury(item.link)).content
+        await cache.set(item.link, content)
+      }
+      newItem.content = content
+      outputFeed.addItem(newItem)
+    }
+    return outputFeed
+  } catch (e) {
+    if (constants.sentryDsn) {
+      Sentry.captureException(e)
+    }
+    const outputFeed = new Feed({
+      id: `${feedUrl}-failed`,
+      title: `Failed to get fulltext rss for ${feedUrl}.`,
+      copyright: '',
+    })
+    const errorItem: Item = {
+      title: `Failed to get fulltext rss for ${feedUrl}.`,
+      content: `Exception: ${e}`,
+      link: 'https://github.com/whtsky/fulltextrssplz/issues',
+      date: new Date(),
+    }
+    outputFeed.addItem(errorItem)
+    return outputFeed
+  }
+}
+
+app.get('/feed', async (req, res) => {
   const feedUrl = req.query.url
 
   if (!feedUrl || typeof feedUrl !== 'string') {
@@ -81,36 +133,7 @@ app.get('/feed', async (req, res) => {
     }
   }
 
-  const feed = await parser.parseURL(feedUrl)
-  const feedOptions: FeedOptions = {
-    ...feed,
-    title: feed.title!,
-    description: feed.description,
-    link: feedUrl,
-    id: feedUrl,
-    image: feed.image?.url,
-    copyright: '',
-  }
-  const outputFeed = new Feed(feedOptions)
-
-  for (const item of (feed.items || []).slice(0, maxItemsPerFeed)) {
-    if (!item.link) {
-      continue
-    }
-    const newItem: Item = {
-      ...item,
-      title: item.title!,
-      link: item.link!,
-      date: new Date(item.pubDate!),
-    }
-    let content: string | undefined = await cache.get(item.link)
-    if (!content) {
-      content = (await parsePageUsingMercury(item.link)).content
-      await cache.set(item.link, content)
-    }
-    newItem.content = content
-    outputFeed.addItem(newItem)
-  }
+  const outputFeed = await getFullTextFeed(feedUrl, maxItemsPerFeed)
 
   if (format == Format.RSS) {
     res.set('Content-type', 'application/rss+xml;charset=UTF-8')
