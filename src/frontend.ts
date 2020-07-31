@@ -30,6 +30,7 @@ const urlParams = new URLSearchParams(window.location.search)
 const feedUrl = urlParams.get('feed')
 if (feedUrl) {
   urlInput.value = feedUrl
+  updateUrl()
 }
 
 // update bookmarklet href
