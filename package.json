@@ -29,7 +29,7 @@
     "@postlight/mercury-parser": "^2.2.0",
     "@sentry/integrations": "^5.20.1",
     "@sentry/node": "^5.20.1",
-    "bootstrap": "^4.5.0",
+    "bootstrap": "^4.5.1",
     "crypto-js": "^4.0.0",
     "express": "^4.17.1",
     "feed": "^4.2.1",
