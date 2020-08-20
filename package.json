@@ -16,7 +16,7 @@
     "@types/redis": "^2.8.25",
     "@types/xml2js": "^0.4.5",
     "@whtsky/prettier-config": "^1.0.1",
-    "jest": "^26.4.0",
+    "jest": "^26.4.1",
     "prettier": "^2.0.5",
     "rollup": "^2.26.4",
     "rollup-plugin-postcss": "^3.1.5",
