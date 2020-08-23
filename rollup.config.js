@@ -11,6 +11,10 @@ export default {
   output: {
     dir: 'public',
     format: 'iife',
+    sourcemap: true,
+    globals: {
+      crypto: 'undefined',
+    },
   },
   plugins: [
     resolve({
