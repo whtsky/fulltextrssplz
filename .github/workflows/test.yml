@@ -5,15 +5,23 @@ name: Main workflow
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x]
     steps:
       - uses: actions/checkout@master
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 14
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 14
       - run: yarn
       - run: yarn test
       - uses: codecov/codecov-action@v1.0.7
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: yarn
+      - run: yarn build
+      - name: Run Lighthouse
+        uses: treosh/lighthouse-ci-action@v3
+        with:
+          configPath: './.github/lighthouserc.json'
+          temporaryPublicStorage: true
