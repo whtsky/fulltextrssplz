@@ -22,7 +22,7 @@
     "prettier": "^2.1.1",
     "rollup": "^2.26.7",
     "rollup-plugin-postcss": "^3.1.6",
-    "rollup-plugin-terser": "^7.0.0",
+    "rollup-plugin-terser": "^7.0.1",
     "start-server-and-test": "^1.11.3",
     "ts-jest": "^26.3.0",
     "ts-node": "^9.0.0",
