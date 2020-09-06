@@ -30,8 +30,8 @@
   },
   "dependencies": {
     "@postlight/mercury-parser": "^2.2.0",
-    "@sentry/integrations": "^5.21.4",
-    "@sentry/node": "^5.21.4",
+    "@sentry/integrations": "^5.22.3",
+    "@sentry/node": "^5.22.3",
     "bootstrap": "^4.5.2",
     "crypto-js": "^4.0.0",
     "express": "^4.17.1",
