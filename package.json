@@ -17,7 +17,7 @@
     "@types/redis": "^2.8.28",
     "@types/xml2js": "^0.4.8",
     "@whtsky/prettier-config": "^1.0.1",
-    "cypress": "^6.4.0",
+    "cypress": "^6.5.0",
     "jest": "^26.6.3",
     "prettier": "^2.2.1",
     "rollup": "^2.39.0",
