@@ -5899,7 +5899,7 @@ rollup@^2.40.0:
   optionalDependencies:
     fsevents "~2.3.1"
 
-rss-parser@^3.9.0:
+rss-parser@^3.12.0:
   version "3.12.0"
   resolved "https://registry.yarnpkg.com/rss-parser/-/rss-parser-3.12.0.tgz#b8888699ea46304a74363fbd8144671b2997984c"
   integrity sha512-aqD3E8iavcCdkhVxNDIdg1nkBI17jgqF+9OqPS1orwNaOgySdpvq6B+DoONLhzjzwV8mWg37sb60e4bmLK117A==
