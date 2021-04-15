@@ -51,5 +51,5 @@ yarn sign <your_key> <feed_url>
 
 |               name |                                                     description | default value |
 | -----------------: | --------------------------------------------------------------: | ------------: |
-|               KEYS | comma-seperated singing keys. Leave empty to run in public mode |       <emtpy> |
+|               KEYS | comma-seperated signing keys. Leave empty to run in public mode |       <emtpy> |
 | MAX_ITEMS_PER_FEED |                                              max items per feed |             3 |
