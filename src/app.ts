@@ -51,22 +51,22 @@ async function getFullTextFeed(feedUrl: string, maxItemsPerFeed: number) {
     }
     const outputFeed = new Feed(feedOptions)
 
-    for (const item of (feed.items || []).slice(0, maxItemsPerFeed)) {
-      if (!item.link) {
-        continue
-      }
+    const newItems = await Promise.all((feed.items || []).filter(item => !!item.link).slice(0, maxItemsPerFeed).map(async item => {
       const newItem: Item = {
         ...item,
         title: item.title!,
         link: item.link!,
         date: new Date(item.pubDate!),
       }
-      let content: string | undefined = await cache.get(item.link)
+      let content: string | undefined = await cache.get(item.link!)
       if (!content) {
-        content = (await parsePageUsingMercury(item.link)).content
-        await cache.set(item.link, content)
+        content = (await parsePageUsingMercury(item.link!)).content
+        await cache.set(item.link!, content)
       }
       newItem.content = content
+      return newItem
+    }))
+    for (const newItem of newItems) {
       outputFeed.addItem(newItem)
     }
     return outputFeed
