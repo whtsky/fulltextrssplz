@@ -1,0 +1,8 @@
+{
+  "rewrites": [{ "source": "/feed", "destination": "/api/now.ts" }],
+  "functions": {
+    "api/now.ts": {
+      "memory": 256
+    }
+  }
+}
