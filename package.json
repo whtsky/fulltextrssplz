@@ -24,7 +24,7 @@
     "rollup-plugin-postcss": "^4.0.0",
     "rollup-plugin-terser": "^7.0.2",
     "start-server-and-test": "^1.12.6",
-    "ts-jest": "^27.0.3",
+    "ts-jest": "^27.0.4",
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
   },
