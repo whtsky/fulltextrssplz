@@ -27,6 +27,12 @@ if (constants.sentryDsn) {
         root: __dirname || process.cwd(),
       }),
     ],
+    ignoreErrors: [
+      /Status code 5\d{2}/,
+      /Status code 4\d{2}/,
+      /Feed not recognized as/,
+      "read ECONNRESET",
+    ]
   })
 
   app.use(Sentry.Handlers.requestHandler())
