@@ -2,13 +2,21 @@
 
 Make RSS full text.
 
-[![Deploy to Vercel](https://vercel.com//button)](https://vercel.com/import/project?template=https://github.com/whtsky/fulltextrssplz)
-
 ## Example
 
 Full text version of [UN News](https://news.un.org/feed/subscribe/en/news/all/rss.xml): https://fulltextrssplz.whtsky.me/feed?url=https://news.un.org/feed/subscribe/en/news/all/rss.xml&format=RSS
 
-## Installation
+## Start Server
+
+[![Deploy to Vercel](https://vercel.com//button)](https://vercel.com/import/project?template=https://github.com/whtsky/fulltextrssplz)
+
+### with Docker
+
+```bash
+docker run --restart=always -p 127.0.0.1:3000:80 -e MAX_ITEMS_PER_FEED=5 -d ghcr.io/whtsky/fulltextrssplz:master
+```
+
+### without Docker
 
 ```bash
 # install dependencies
