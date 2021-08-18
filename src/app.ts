@@ -9,10 +9,14 @@ import { RewriteFrames } from '@sentry/integrations'
 import * as constants from './constants'
 import { parsePageUsingMercury } from './parser'
 import { verify } from './sign'
-import { DummyCache } from './cache'
+import { getCache } from './cache'
 
 const app = express()
-const cache = new DummyCache()
+const cache = getCache({
+  mode: constants.cacheMode,
+  url: constants.redisUrl,
+  ttl: constants.cacheTtl
+})
 
 enum Format {
   RSS,

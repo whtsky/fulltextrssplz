@@ -54,3 +54,6 @@ yarn sign <your_key> <feed_url>
 |                 KEYS |  comma-seperated signing keys. Leave empty to run in public mode |     `<emtpy>` |
 |   MAX_ITEMS_PER_FEED |                                               max items per feed |           `3` |
 | CACHE_CONTROL_MAXAGE | Set max age in `Cache-Control` header. Use `0` to disable cache. |        `1800` |
+|           CACHE_MODE |   `redis` for cache with redis, other values means disable cache |     `<empty>` |
+|            REDIS_URL |                                                    URL for redis |     `<empty>` |
+|            CACHE_TTL |                                                        Cache TTL |     `<empty>` |
