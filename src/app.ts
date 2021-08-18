@@ -141,6 +141,10 @@ app.get('/feed', async (req, res) => {
 
   const outputFeed = await getFullTextFeed(feedUrl, maxItemsPerFeed)
 
+  if (constants.cacheControlMaxAge > 0) {
+    res.set('Cache-control', `public, max-age=${constants.cacheControlMaxAge}`)
+  }
+
   if (format == Format.RSS) {
     res.set('Content-type', 'application/rss+xml;charset=UTF-8')
     res.end(outputFeed.rss2())

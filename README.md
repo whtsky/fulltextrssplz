@@ -49,7 +49,8 @@ yarn sign <your_key> <feed_url>
 
 ## Environment Variables
 
-|               name |                                                     description | default value |
-| -----------------: | --------------------------------------------------------------: | ------------: |
-|               KEYS | comma-seperated signing keys. Leave empty to run in public mode |       <emtpy> |
-| MAX_ITEMS_PER_FEED |                                              max items per feed |             3 |
+|                 name |                                                      description | default value |
+| -------------------: | ---------------------------------------------------------------: | ------------: |
+|                 KEYS |  comma-seperated signing keys. Leave empty to run in public mode |     `<emtpy>` |
+|   MAX_ITEMS_PER_FEED |                                               max items per feed |           `3` |
+| CACHE_CONTROL_MAXAGE | Set max age in `Cache-Control` header. Use `0` to disable cache. |        `1800` |
