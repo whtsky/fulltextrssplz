@@ -37,7 +37,7 @@ http://localhost:3000/feed?format=rss&url=<feed_url>[&sign=<your_sign>][&max_ite
 Params are:
 
 - `format`: Output in which format. Can be `rss` or `json`
-- `url`: url to original feed
+- `url`: URL to original feed
 - `sign`: required for protected mode. hexadecimal HMAC signature of the feed url
 - `max_items`: max items for this feed. Can't be greater than `MAX_ITEMS_PER_FEED` environment variable.
 
@@ -51,6 +51,8 @@ yarn sign <your_key> <feed_url>
 
 |                 name |                                                      description | default value |
 | -------------------: | ---------------------------------------------------------------: | ------------: |
+|             HOSTNAME |                                  hostname HTTP server listens to |   `localhost` |
+|                 PORT |                                      port HTTP server listens to |        `3000` |
 |                 KEYS |  comma-seperated signing keys. Leave empty to run in public mode |     `<emtpy>` |
 |   MAX_ITEMS_PER_FEED |                                               max items per feed |           `3` |
 | CACHE_CONTROL_MAXAGE | Set max age in `Cache-Control` header. Use `0` to disable cache. |        `1800` |
