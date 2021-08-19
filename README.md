@@ -4,11 +4,13 @@ Make RSS full text.
 
 ## Example
 
-Full text version of [UN News](https://news.un.org/feed/subscribe/en/news/all/rss.xml): https://fulltextrssplz.whtsky.me/feed?url=https://news.un.org/feed/subscribe/en/news/all/rss.xml&format=RSS
+Full-text version of [UN News](https://news.un.org/feed/subscribe/en/news/all/rss.xml): https://fulltextrssplz.whtsky.me/feed?url=https://news.un.org/feed/subscribe/en/news/all/rss.xml&format=RSS
 
 ## Start Server
 
-[![Deploy to Vercel](https://vercel.com//button)](https://vercel.com/import/project?template=https://github.com/whtsky/fulltextrssplz)
+### PaaS
+
+[![Deploy To Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/whtsky/fulltextrssplz)
 
 ### with Docker
 

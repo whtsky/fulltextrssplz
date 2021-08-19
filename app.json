@@ -1,13 +1,14 @@
-
 {
   "name": "fulltextrssplz",
-  "description": "Build agents that monitor and act on your behalf.  Your agents are standing by!",
+  "description": "Make RSS full text.",
   "website": "https://github.com/whtsky/fulltextrssplz",
   "repository": "https://github.com/whtsky/fulltextrssplz",
+  "keywords": ["rss", "full-text rss"],
   "success_url": "/",
   "env": {
-      "CACHE_MODE": "redis",
-      "CACHE_TTL": "3600"
+    "MAX_ITEMS_PER_FEED": "3",
+    "CACHE_MODE": "redis",
+    "CACHE_TTL": "3600"
   },
   "addons": ["heroku-redis"],
   "stack": "heroku-20"
