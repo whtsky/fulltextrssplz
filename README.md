@@ -59,7 +59,7 @@ yarn sign <your_key> <feed_url>
 
 |                 name |                                                      description | default value |
 | -------------------: | ---------------------------------------------------------------: | ------------: |
-|             HOSTNAME |                                  hostname HTTP server listens to |   `localhost` |
+|             HOSTNAME |                                  hostname HTTP server listens to |     `0.0.0.0` |
 |                 PORT |                                      port HTTP server listens to |        `3000` |
 |                 KEYS |  comma-seperated signing keys. Leave empty to run in public mode |     `<emtpy>` |
 |   MAX_ITEMS_PER_FEED |                                               max items per feed |           `3` |

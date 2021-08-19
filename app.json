@@ -1,0 +1,14 @@
+
+{
+  "name": "fulltextrssplz",
+  "description": "Build agents that monitor and act on your behalf.  Your agents are standing by!",
+  "website": "https://github.com/whtsky/fulltextrssplz",
+  "repository": "https://github.com/whtsky/fulltextrssplz",
+  "success_url": "/",
+  "env": {
+      "CACHE_MODE": "redis",
+      "CACHE_TTL": "3600"
+  },
+  "addons": ["heroku-redis"],
+  "stack": "heroku-20"
+}
