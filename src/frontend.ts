@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
+import "tailwindcss/tailwind.css"
 
 import { sign } from './sign'
 

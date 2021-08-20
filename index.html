@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Make RSS feeds fulltext." />
+    <meta
+      name="keywords"
+      content="full text rss, full text atom feed, full rss, fulltext rss, custom rss feed, build rss feed"
+    />
+    <title>fulltextrssplz</title>
+  </head>
+  <body>
+    <div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+      <h1
+        class="
+          text-4xl
+          p-4
+          font-bold
+          text-transparent
+          md:text-3xl
+          bg-clip-text bg-gradient-to-r
+          from-pink-400
+          to-pink-600
+          text-center
+        "
+      >
+        fulltextrssplz
+      </h1>
+      <p class="text-sm text-gray-600 p-2 m-2 text-center">- Make RSS full text -</p>
+      <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+        <div class="relative px-4 bg-white shadow-lg sm:rounded-3xl p-5 sm:px-20 sm:py-10">
+          <div class="w-96 mx-auto">
+            <div class="divide-y-2 divide-gray-200">
+              <div class="grid grid-cols-1 gap-6 text-gray-700">
+                <label class="block">
+                  <span>RSS URL</span>
+                  <input
+                    id="url"
+                    name="url"
+                    placeholder="http://website.com/feed"
+                    class="
+                      mt-1
+                      block
+                      w-full
+                      rounded-md
+                      border-gray-300
+                      shadow-sm
+                      focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
+                    "
+                    type="url"
+                    required
+                  />
+                </label>
+                <label class="block">
+                  <span>Output Format</span>
+                  <select
+                    class="
+                      block
+                      w-full
+                      mt-1
+                      rounded-md
+                      border-gray-300
+                      shadow-sm
+                      focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
+                    "
+                    name="format"
+                    id="format"
+                    required
+                  >
+                    <option>RSS</option>
+                    <option>JSON</option>
+                  </select>
+                </label>
+                <label class="block">
+                  <span>Access Key</span>
+                  <input
+                    id="key"
+                    name="key"
+                    placeholder="It's optional"
+                    class="
+                      mt-1
+                      block
+                      w-full
+                      rounded-md
+                      border-gray-300
+                      shadow-sm
+                      focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
+                    "
+                    type="password"
+                  />
+                </label>
+                <label class="block my-3">
+                  <span>Full Text RSS URL</span>
+                  <a href="" id="output" class="mt-2 block text-blue-600 hover:text-blue-800 break-all"></a>
+                </label>
+              </div>
+              <div class="pt-6 text-base leading-6">
+                <h2 class="text-lg font-bold my-2">Bookmarklet</h2>
+                <a
+                  href=""
+                  class="rounded-md py-2 px-3 block bg-cyan-400 hover:bg-cyan-600 text-center text-white"
+                  id="bookmarklet"
+                >
+                  fulltextrssplz
+                </a>
+                <p class="text-sm text-gray-700 leading-10">- Drag and drop this link to your bookmarks -</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="text-sm p-4 m-4 text-center text-gray-800">
+        <a href="https://github.com/whtsky/fulltextrssplz" class="text-gray-500 hover:text-gray-700">fulltextrssplz</a>
+        is created by
+        <a href="https://github.com/whtsky/" class="text-gray-500 hover:text-gray-700">whtsky</a>
+      </p>
+    </div>
+  </body>
+</html>

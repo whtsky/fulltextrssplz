@@ -35,6 +35,8 @@ if (constants.sentryDsn) {
       /Status code 5\d{2}/,
       /Status code 4\d{2}/,
       /Feed not recognized as/,
+      /certificate has expired/,
+      "ESOCKETTIMEDOUT",
       "read ECONNRESET",
     ]
   })

@@ -7,8 +7,10 @@ COPY package.json /app
 RUN yarn install --frozen-lockfile
 COPY tsconfig.json /app
 COPY rollup.config.js /app
+COPY tailwind.config.js /app
+COPY tailwind.config.js /app
 COPY src /app/src
-COPY public /app/public
+COPY index.html /app
 RUN yarn build
 
 FROM node:16
