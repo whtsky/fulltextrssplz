@@ -13,7 +13,7 @@ jobs:
           node-version: 14
       - run: yarn
       - run: yarn test
-      - uses: codecov/codecov-action@v2.0.2
+      - uses: codecov/codecov-action@v2.0.3
   lighthouse:
     runs-on: ubuntu-latest
     steps:
