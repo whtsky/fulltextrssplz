@@ -21,7 +21,7 @@
     "concurrently": "6.3.0",
     "cypress": "^8.6.0",
     "jest": "^27.3.1",
-    "postcss": "8.3.10",
+    "postcss": "8.3.11",
     "prettier": "^2.4.1",
     "rollup": "^2.58.0",
     "rollup-plugin-generate-html-template": "1.7.0",
