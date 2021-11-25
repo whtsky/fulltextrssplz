@@ -581,7 +581,7 @@
     dotenv "^6.2.0"
     node-fetch "^2.3.0"
 
-"@postlight/mercury-parser@^2.2.0":
+"@postlight/mercury-parser@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@postlight/mercury-parser/-/mercury-parser-2.2.1.tgz#a2a601707e2f2da0b8d83f983f53422f8b58855e"
   integrity sha512-WsXHcVfbwlAb0HO1nZ3tS2ipNvLeLk9frJj3y5hn/NAeQfEJeRm9AtMrxpOJ11X8L4he+bRyjr1bpIPvQPWvCA==
