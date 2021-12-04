@@ -22,7 +22,7 @@
     "cypress": "^9.1.1",
     "jest": "^27.4.3",
     "postcss": "8.4.4",
-    "prettier": "^2.5.0",
+    "prettier": "^2.5.1",
     "rollup": "^2.60.2",
     "rollup-plugin-generate-html-template": "1.7.0",
     "rollup-plugin-postcss": "^4.0.2",
