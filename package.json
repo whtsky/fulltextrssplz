@@ -20,7 +20,7 @@
     "autoprefixer": "10.4.1",
     "concurrently": "6.5.1",
     "cypress": "^9.2.0",
-    "jest": "^27.4.6",
+    "jest": "^27.4.7",
     "postcss": "8.4.5",
     "prettier": "^2.5.1",
     "rollup": "^2.63.0",
