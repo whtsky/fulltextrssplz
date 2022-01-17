@@ -38,7 +38,7 @@
     "@sentry/integrations": "^6.11.0",
     "@sentry/node": "^6.11.0",
     "crypto-js": "^4.1.1",
-    "express": "^4.17.1",
+    "express": "^4.17.2",
     "feed": "^4.2.2",
     "redis": "3.1.2",
     "rss-parser": "^3.12.0"
