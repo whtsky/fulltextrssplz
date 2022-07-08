@@ -23,7 +23,7 @@
     "jest": "^27.5.1",
     "postcss": "8.4.14",
     "prettier": "^2.7.1",
-    "rollup": "^2.75.7",
+    "rollup": "^2.76.0",
     "rollup-plugin-generate-html-template": "1.7.0",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-terser": "^7.0.2",
