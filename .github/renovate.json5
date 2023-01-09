@@ -1,3 +1,16 @@
 {
   extends: ['@whtsky'],
+  packageRules: [
+    {
+      extends: ['monorepo:jest'],
+      matchPackageNames: ['ts-jest'],
+      matchPackagePrefixes: ['@types/jest'],
+      groupName: 'jest',
+    },
+    {
+      matchPackagePrefixes: ['@rollup', 'rollup-'],
+      matchPackageNames: ['rollup'],
+      groupName: 'rollup',
+    },
+  ],
 }
