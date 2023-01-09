@@ -1,7 +1,7 @@
 import typescript from '@rollup/plugin-typescript'
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
-import { terser } from 'rollup-plugin-terser'
+import terser from '@rollup/plugin-terser'
 import htmlTemplate from 'rollup-plugin-generate-html-template';
 // @ts-ignore
 import postcss from 'rollup-plugin-postcss'
