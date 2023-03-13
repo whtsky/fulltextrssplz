@@ -759,7 +759,7 @@
     "@sentry/utils" "7.42.0"
     tslib "^1.9.3"
 
-"@sentry/integrations@^7.29.0":
+"@sentry/integrations@^7.42.0":
   version "7.42.0"
   resolved "https://registry.yarnpkg.com/@sentry/integrations/-/integrations-7.42.0.tgz#53fc487de35ce01e3845f1de2f876fc01e87a681"
   integrity sha512-5P3LsU+HRmdh458mav3dNh8RCn0TROIxwa/b7jk1TLWcXHrNp5REjo1oI4PTC+fFbNE4b7ydwHNEzI65rz7gyA==
@@ -769,7 +769,7 @@
     localforage "^1.8.1"
     tslib "^1.9.3"
 
-"@sentry/node@^7.29.0":
+"@sentry/node@^7.42.0":
   version "7.42.0"
   resolved "https://registry.yarnpkg.com/@sentry/node/-/node-7.42.0.tgz#62b31f5b5b8ffb8f2f917deb143e27935b357409"
   integrity sha512-mmpVSDeoM5aEbKOMq3Wt54wAvH53bkivhRh3Ip+R7Uj3aOKkcVJST2XlbghHgoYQXTWz+pl475EVyODWgY9QYg==
