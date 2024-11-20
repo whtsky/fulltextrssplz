@@ -1,4 +1,4 @@
-FROM node:18 AS build
+FROM node:19 AS build
 WORKDIR /app
 ENV CYPRESS_INSTALL_BINARY=0
 
@@ -13,7 +13,7 @@ COPY src /app/src
 COPY index.html /app
 RUN yarn build
 
-FROM node:18
+FROM node:19
 WORKDIR /app
 COPY yarn.lock /app
 COPY package.json /app
