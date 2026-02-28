@@ -1,10 +1,8 @@
 import express from 'express'
-import bodyParser from 'body-parser'
 import Parser from 'rss-parser'
 import { Feed } from 'feed'
-import type { FeedOptions, Item } from 'feed/lib/typings'
+import type { FeedOptions, Item } from 'feed'
 import * as Sentry from '@sentry/node'
-import { RewriteFrames } from '@sentry/integrations'
 
 import * as constants from './constants'
 import { parsePageUsingMercury } from './parser'
@@ -27,7 +25,7 @@ if (constants.sentryDsn) {
   Sentry.init({
     dsn: constants.sentryDsn,
     integrations: [
-      new RewriteFrames({
+      Sentry.rewriteFramesIntegration({
         root: __dirname || process.cwd(),
       }),
     ],
@@ -40,13 +38,11 @@ if (constants.sentryDsn) {
       "read ECONNRESET",
     ]
   })
-
-  app.use(Sentry.Handlers.requestHandler())
 }
 
 app.use(express.static(constants.publicPath))
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }))
 
 async function getFullTextFeed(feedUrl: string, maxItemsPerFeed: number) {
   const parser = new Parser()
@@ -163,7 +159,7 @@ app.get('/feed', async (req, res) => {
 })
 
 if (constants.sentryDsn) {
-  app.use(Sentry.Handlers.errorHandler())
+  Sentry.setupExpressErrorHandler(app)
 }
 
 export default app

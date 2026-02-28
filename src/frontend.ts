@@ -1,4 +1,4 @@
-import "tailwindcss/tailwind.css"
+import "./styles.css"
 
 import { sign } from './sign'
 

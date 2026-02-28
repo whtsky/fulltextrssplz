@@ -1,9 +1,9 @@
 import type { Cache } from './type'
-import type { RedisClient } from 'redis'
+import type { createClient } from 'redis'
 
 export class RedisCache implements Cache {
   redisUrl: string
-  client?: RedisClient
+  client?: ReturnType<typeof createClient>
   ttl: number | undefined
   constructor(url: string, ttl: number | undefined = undefined) {
     this.redisUrl = url
@@ -13,32 +13,21 @@ export class RedisCache implements Cache {
     if (!this.client) {
       const redis = await import('redis')
       this.client = redis.createClient({ url: this.redisUrl })
+      await this.client.connect()
     }
   }
-  get(url: string) {
-    return new Promise<string | undefined>(async (resolve, reject) => {
-      try {
-        await this.ensureClient()
-        this.client!.get(url, (err, data) => {
-          if (err) {
-            reject(err)
-          } else {
-            resolve(data || undefined)
-          }
-        })
-      } catch (e) {
-        reject(e)
-      }
-    })
+  async get(url: string): Promise<string | undefined> {
+    await this.ensureClient()
+    const data = await this.client!.get(url)
+    return data || undefined
   }
 
   async set(url: string, content: string) {
     await this.ensureClient()
     if (this.ttl !== undefined) {
-      this.client!.set(url, content, 'EX', this.ttl)
+      await this.client!.set(url, content, { EX: this.ttl })
     } else {
-      this.client!.set(url, content)
+      await this.client!.set(url, content)
     }
-    return Promise.resolve()
   }
 }

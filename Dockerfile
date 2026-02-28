@@ -1,4 +1,4 @@
-FROM node:18 AS build
+FROM node:lts AS build
 WORKDIR /app
 ENV CYPRESS_INSTALL_BINARY=0
 
@@ -7,13 +7,11 @@ COPY package.json /app
 RUN yarn install --frozen-lockfile
 COPY tsconfig.json /app
 COPY rollup.config.js /app
-COPY tailwind.config.js /app
-COPY tailwind.config.js /app
 COPY src /app/src
 COPY index.html /app
 RUN yarn build
 
-FROM node:18
+FROM node:lts
 WORKDIR /app
 COPY yarn.lock /app
 COPY package.json /app
