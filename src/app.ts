@@ -1,7 +1,7 @@
 import express from 'express'
 import Parser from 'rss-parser'
 import { Feed } from 'feed'
-import type { FeedOptions, Item } from 'feed'
+import type { FeedOptions, Item } from 'feed/lib/typings'
 import * as Sentry from '@sentry/node'
 
 import * as constants from './constants'
