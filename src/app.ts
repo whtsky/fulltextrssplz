@@ -10,7 +10,6 @@ import * as constants from './constants'
 import { parsePageUsingMercury } from './parser'
 import { verify } from './sign'
 import { getCache } from './cache'
-import { parseCreator, addDcCreators } from './author'
 
 const app = express()
 const cache = getCache({
@@ -70,9 +69,6 @@ async function getFullTextFeed(feedUrl: string, maxItemsPerFeed: number) {
         title: item.title!,
         link: item.link!,
         date: new Date(item.pubDate!),
-      }
-      if (item.creator) {
-        newItem.author = [parseCreator(item.creator)]
       }
       let content: string | undefined = await cache.get(item.link!)
       if (!content) {
@@ -157,7 +153,7 @@ app.get('/feed', async (req, res) => {
 
   if (format == Format.RSS) {
     res.set('Content-type', 'application/rss+xml;charset=UTF-8')
-    res.end(addDcCreators(outputFeed.rss2(), outputFeed.items))
+    res.end(outputFeed.rss2())
   } else if (format == Format.JSON) {
     res.set('Content-type', 'application/json;charset=UTF-8')
     res.end(outputFeed.json1())
