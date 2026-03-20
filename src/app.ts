@@ -1,8 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import Parser from 'rss-parser'
-import { Feed } from 'feed'
-import type { FeedOptions, Item } from 'feed/lib/typings'
+import { generateRssFeed, generateJsonFeed } from 'feedsmith'
 import * as Sentry from '@sentry/node'
 import { RewriteFrames } from '@sentry/integrations'
 
@@ -48,58 +47,101 @@ app.use(express.static(constants.publicPath))
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
-async function getFullTextFeed(feedUrl: string, maxItemsPerFeed: number) {
+interface FeedData {
+  title: string
+  description?: string
+  link: string
+  image?: string
+  items: Array<{
+    title: string
+    link: string
+    date: Date
+    content?: string
+    description?: string
+    creator?: string
+    categories?: string[]
+    guid?: string
+  }>
+}
+
+async function getFullTextFeed(feedUrl: string, maxItemsPerFeed: number): Promise<FeedData> {
   const parser = new Parser()
   try {
     const feed = await parser.parseURL(feedUrl)
-    const feedOptions: FeedOptions = {
-      ...feed,
-      title: feed.title!,
-      description: feed.description,
-      link: feedUrl,
-      id: feedUrl,
-      image: feed.image?.url,
-      copyright: '',
-    }
-    const outputFeed = new Feed(feedOptions)
 
-    const newItems = await Promise.all((feed.items || []).filter(item => !!item.link).slice(0, maxItemsPerFeed).map(async item => {
-      const newItem: Item = {
-        ...item,
-        title: item.title!,
-        link: item.link!,
-        date: new Date(item.pubDate!),
-      }
+    const items = await Promise.all((feed.items || []).filter(item => !!item.link).slice(0, maxItemsPerFeed).map(async item => {
       let content: string | undefined = await cache.get(item.link!)
       if (!content) {
         content = (await parsePageUsingMercury(item.link!)).content
         await cache.set(item.link!, content)
       }
-      newItem.content = content
-      return newItem
+      return {
+        title: item.title!,
+        link: item.link!,
+        date: new Date(item.pubDate!),
+        content,
+        description: item.contentSnippet || item.content,
+        creator: item.creator,
+        categories: item.categories,
+        guid: item.guid,
+      }
     }))
-    for (const newItem of newItems) {
-      outputFeed.addItem(newItem)
+
+    return {
+      title: feed.title!,
+      description: feed.description,
+      link: feedUrl,
+      image: feed.image?.url,
+      items,
     }
-    return outputFeed
   } catch (e) {
     if (constants.sentryDsn) {
       Sentry.captureException(e)
     }
-    const outputFeed = new Feed({
-      id: `${feedUrl}-failed`,
+    return {
       title: `Failed to get fulltext rss for ${feedUrl}.`,
-      copyright: '',
-    })
-    const errorItem: Item = {
-      title: `Failed to get fulltext rss for ${feedUrl}.`,
-      content: `Exception: ${e}`,
-      link: 'https://github.com/whtsky/fulltextrssplz/issues',
-      date: new Date(),
+      link: feedUrl,
+      items: [{
+        title: `Failed to get fulltext rss for ${feedUrl}.`,
+        content: `Exception: ${e}`,
+        link: 'https://github.com/whtsky/fulltextrssplz/issues',
+        date: new Date(),
+      }],
     }
-    outputFeed.addItem(errorItem)
-    return outputFeed
   }
+}
+
+function feedToRss(data: FeedData): string {
+  return generateRssFeed({
+    title: data.title,
+    description: data.description || '',
+    link: data.link,
+    items: data.items.map(item => ({
+      title: item.title,
+      link: item.link,
+      pubDate: item.date,
+      description: item.description,
+      guid: item.guid ? { value: item.guid } : undefined,
+      dc: item.creator ? { creator: item.creator } : undefined,
+      content: item.content ? { encoded: item.content } : undefined,
+    })),
+  }, { lenient: true })
+}
+
+function feedToJson(data: FeedData): string {
+  return JSON.stringify(generateJsonFeed({
+    title: data.title,
+    home_page_url: data.link,
+    description: data.description,
+    items: data.items.map(item => ({
+      id: item.guid || item.link,
+      url: item.link,
+      title: item.title,
+      date_published: item.date,
+      content_html: item.content,
+      authors: item.creator ? [{ name: item.creator }] : undefined,
+    })),
+  }, { lenient: true }))
 }
 
 app.get('/feed', async (req, res) => {
@@ -145,7 +187,7 @@ app.get('/feed', async (req, res) => {
     }
   }
 
-  const outputFeed = await getFullTextFeed(feedUrl, maxItemsPerFeed)
+  const feedData = await getFullTextFeed(feedUrl, maxItemsPerFeed)
 
   if (constants.cacheControlMaxAge > 0) {
     res.set('Cache-control', `public, max-age=${constants.cacheControlMaxAge}`)
@@ -153,10 +195,10 @@ app.get('/feed', async (req, res) => {
 
   if (format == Format.RSS) {
     res.set('Content-type', 'application/rss+xml;charset=UTF-8')
-    res.end(outputFeed.rss2())
+    res.end(feedToRss(feedData))
   } else if (format == Format.JSON) {
     res.set('Content-type', 'application/json;charset=UTF-8')
-    res.end(outputFeed.json1())
+    res.end(feedToJson(feedData))
   } else {
     res.end('unknown format:' + format)
   }
