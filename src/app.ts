@@ -76,14 +76,12 @@ async function getFullTextFeed(feedUrl: string, maxItemsPerFeed: number): Promis
         await cache.set(item.link!, content)
       }
       return {
+        ...item,
         title: item.title!,
         link: item.link!,
         date: new Date(item.pubDate!),
         content,
         description: item.contentSnippet || item.content,
-        creator: item.creator,
-        categories: item.categories,
-        guid: item.guid,
       }
     }))
 
@@ -113,30 +111,28 @@ async function getFullTextFeed(feedUrl: string, maxItemsPerFeed: number): Promis
 
 function feedToRss(data: FeedData): string {
   return generateRssFeed({
-    title: data.title,
+    ...data,
     description: data.description || '',
-    link: data.link,
+    image: data.image ? { url: data.image } : undefined,
     items: data.items.map(item => ({
-      title: item.title,
-      link: item.link,
+      ...item,
       pubDate: item.date,
-      description: item.description,
       guid: item.guid ? { value: item.guid } : undefined,
       dc: item.creator ? { creator: item.creator } : undefined,
       content: item.content ? { encoded: item.content } : undefined,
+      categories: item.categories?.map(name => ({ name })),
     })),
   }, { lenient: true })
 }
 
 function feedToJson(data: FeedData): string {
   return JSON.stringify(generateJsonFeed({
-    title: data.title,
+    ...data,
     home_page_url: data.link,
-    description: data.description,
     items: data.items.map(item => ({
+      ...item,
       id: item.guid || item.link,
       url: item.link,
-      title: item.title,
       date_published: item.date,
       content_html: item.content,
       authors: item.creator ? [{ name: item.creator }] : undefined,
