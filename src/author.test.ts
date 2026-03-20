@@ -1,48 +1,7 @@
 // @ts-nocheck
 import { Feed } from 'feed'
 import type { FeedOptions, Item } from 'feed/lib/typings'
-
-// We need to test the functions from app.ts, but they are not exported.
-// Instead, we re-implement the logic inline to test it directly.
-
-function parseCreator(creator: string): { name?: string; email?: string } {
-  const match = creator.match(/^(\S+@\S+)\s+\((.+)\)$/)
-  if (match) {
-    return { email: match[1], name: match[2] }
-  }
-  return { name: creator }
-}
-
-function addDcCreators(rssXml: string, items: Item[]): string {
-  let result = rssXml
-  let searchFrom = 0
-
-  for (const item of items) {
-    const closeIdx = result.indexOf('</item>', searchFrom)
-    if (closeIdx === -1) break
-
-    if (item.author?.length && item.author[0].name) {
-      const name = item.author[0].name
-      const newlinePos = result.lastIndexOf('\n', closeIdx)
-      const itemIndent = result.substring(newlinePos + 1, closeIdx)
-      const childIndent = itemIndent + '    '
-      const dcLine = '\n' + childIndent + `<dc:creator><![CDATA[${name}]]></dc:creator>`
-      result = result.slice(0, newlinePos) + dcLine + result.slice(newlinePos)
-      searchFrom = closeIdx + dcLine.length + '</item>'.length
-    } else {
-      searchFrom = closeIdx + '</item>'.length
-    }
-  }
-
-  if (!result.includes('xmlns:dc=')) {
-    result = result.replace(
-      'version="2.0"',
-      'version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"'
-    )
-  }
-
-  return result
-}
+import { parseCreator, addDcCreators } from './author'
 
 describe('parseCreator', () => {
   test('parses name-only creator', () => {
@@ -209,5 +168,23 @@ describe('addDcCreators', () => {
     const dcCreatorIdx = result.indexOf('<dc:creator>')
     expect(dcCreatorIdx).toBeGreaterThan(itemStart)
     expect(dcCreatorIdx).toBeLessThan(itemEnd)
+  })
+
+  test('escapes ]]> in author names to prevent CDATA injection', () => {
+    const items: Item[] = [
+      {
+        title: 'Test Article',
+        link: 'https://example.com/article',
+        date: new Date('2024-01-01'),
+        content: 'Test content',
+        author: [{ name: 'Evil]]>Author' }],
+      },
+    ]
+    const { xml, items: feedItems } = buildFeedXml(items)
+    const result = addDcCreators(xml, feedItems)
+
+    // The ]]> sequence should be escaped by splitting the CDATA section
+    expect(result).not.toContain('<dc:creator><![CDATA[Evil]]>Author]]></dc:creator>')
+    expect(result).toContain('<dc:creator><![CDATA[Evil]]]]><![CDATA[>Author]]></dc:creator>')
   })
 })
