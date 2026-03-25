@@ -8,8 +8,6 @@ The fulltext RSS proxy must be able to process the following feeds without any i
 
 1. **UN News RSS** — `https://news.un.org/feed/subscribe/en/news/all/rss.xml`
    - Standard RSS 2.0 feed
-   - Server sends gzip-encoded responses regardless of `Accept-Encoding` header
-   - Must handle transparent gzip/deflate/brotli decompression
 
 2. **FreshRSS Atom** — `https://github.com/FreshRSS/FreshRSS/releases.atom`
    - Atom feed format
