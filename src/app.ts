@@ -65,9 +65,7 @@ interface FeedData {
 }
 
 async function getFullTextFeed(feedUrl: string, maxItemsPerFeed: number): Promise<FeedData> {
-  const parser = new Parser<{}, { author?: string; id?: string }>({
-    customFields: { item: [['author', 'author'], ['id', 'id']] },
-  })
+  const parser = new Parser<{}, { author?: string; id?: string }>()
   try {
     const feed = await parser.parseURL(feedUrl)
 
