@@ -4,6 +4,9 @@ import Parser from 'rss-parser'
 import { generateRssFeed, generateJsonFeed } from 'feedsmith'
 import * as Sentry from '@sentry/node'
 import { RewriteFrames } from '@sentry/integrations'
+import * as https from 'https'
+import * as http from 'http'
+import * as zlib from 'zlib'
 
 import * as constants from './constants'
 import { parsePageUsingMercury } from './parser'
@@ -64,10 +67,40 @@ interface FeedData {
   }>
 }
 
+function fetchUrl(feedUrl: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const get = feedUrl.startsWith('https') ? https.get : http.get
+    get(feedUrl, (res) => {
+      if (res.statusCode && res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+        return fetchUrl(res.headers.location).then(resolve, reject)
+      }
+      if (res.statusCode && res.statusCode >= 300) {
+        return reject(new Error(`Status code ${res.statusCode}`))
+      }
+      const encoding = res.headers['content-encoding']
+      let stream: NodeJS.ReadableStream = res
+      if (encoding === 'gzip') {
+        stream = res.pipe(zlib.createGunzip())
+      } else if (encoding === 'deflate') {
+        stream = res.pipe(zlib.createInflate())
+      } else if (encoding === 'br') {
+        stream = res.pipe(zlib.createBrotliDecompress())
+      }
+      const chunks: Buffer[] = []
+      stream.on('data', (chunk: Buffer) => chunks.push(chunk))
+      stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
+      stream.on('error', reject)
+    }).on('error', reject)
+  })
+}
+
 async function getFullTextFeed(feedUrl: string, maxItemsPerFeed: number): Promise<FeedData> {
-  const parser = new Parser()
+  const parser = new Parser<{}, { author?: string; id?: string }>({
+    customFields: { item: [['author', 'author'], ['id', 'id']] },
+  })
   try {
-    const feed = await parser.parseURL(feedUrl)
+    const xml = await fetchUrl(feedUrl)
+    const feed = await parser.parseString(xml)
 
     const items = await Promise.all((feed.items || []).filter(item => !!item.link).slice(0, maxItemsPerFeed).map(async item => {
       let content: string | undefined = await cache.get(item.link!)
@@ -79,9 +112,11 @@ async function getFullTextFeed(feedUrl: string, maxItemsPerFeed: number): Promis
         ...item,
         title: item.title!,
         link: item.link!,
-        date: new Date(item.pubDate!),
+        date: new Date(item.pubDate || item.isoDate || Date.now()),
         content,
         description: item.contentSnippet || item.content,
+        creator: item.creator || item.author,
+        guid: item.guid || item.id,
       }
     }))
 
@@ -127,15 +162,18 @@ function feedToRss(data: FeedData): string {
 
 function feedToJson(data: FeedData): string {
   return JSON.stringify(generateJsonFeed({
-    ...data,
+    title: data.title,
     home_page_url: data.link,
+    description: data.description,
     items: data.items.map(item => ({
-      ...item,
       id: item.guid || item.link,
       url: item.link,
+      title: item.title,
       date_published: item.date,
       content_html: item.content,
+      summary: item.description,
       authors: item.creator ? [{ name: item.creator }] : undefined,
+      tags: item.categories,
     })),
   }, { lenient: true }))
 }
