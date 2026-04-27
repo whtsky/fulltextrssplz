@@ -16,7 +16,7 @@
     "@types/express": "^4.17.25",
     "@types/jest": "^29.5.14",
     "@types/redis": "2.8.32",
-    "@types/xml2js": "^0.4.11",
+    "@types/xml2js": "^0.4.14",
     "@whtsky/prettier-config": "^1.0.1",
     "autoprefixer": "10.4.14",
     "concurrently": "6.5.1",
