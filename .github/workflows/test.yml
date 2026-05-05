@@ -37,7 +37,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: lts/*
-      - uses: cypress-io/github-action@v6.10.9
+      - uses: cypress-io/github-action@v7.3.0
         with:
           build: yarn build
           start: yarn start
